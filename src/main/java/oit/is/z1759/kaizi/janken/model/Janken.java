@@ -9,7 +9,6 @@ public class Janken {
 
   // コンストラクタ
   public Janken() {
-
     this.cpuHand = getRandomHand();
   }
 
