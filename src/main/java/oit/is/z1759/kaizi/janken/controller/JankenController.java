@@ -7,17 +7,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.ext.Java7Handlers;
-
 import oit.is.z1759.kaizi.janken.model.Janken;
 
 @Controller
 public class JankenController {
+  private int totalGame = 0;
+  private int countWin = 0;
+  private int countDraw = 0;
+  private int countLose = 0;
 
   @GetMapping("/jankengame")
   public String playGame(@RequestParam("hand") String userHand, ModelMap model) {
-    // CPUの手
+    // ゲーム回数を表示
+    totalGame++;
 
+    // CPUの手
     String result;
 
     Janken jankenResult = new Janken();
@@ -25,10 +29,22 @@ public class JankenController {
     // 対戦結果のロジックを追加
     result = determineWinner(userHand, jankenResult.getCpuHand());
 
+    if (result.equals("You Win!")) {
+      countWin++;
+    } else if (result.equals("It's a Draw!")) {
+      countDraw++;
+    } else if (result.equals("You Lose!")) {
+      countLose++;
+    }
+
     // 結果をmodelに登録
     model.addAttribute("userHand", userHand);
     model.addAttribute("cpuHand", jankenResult.getCpuHand());
     model.addAttribute("result", result);
+    model.addAttribute("totalGame", totalGame);
+    model.addAttribute("countWin", countWin);
+    model.addAttribute("countDraw", countDraw);
+    model.addAttribute("countLose", countLose);
     // janken.htmlに遷移
     return "janken";
   }
