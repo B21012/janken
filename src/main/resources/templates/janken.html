@@ -11,10 +11,20 @@
   <div th:if="${sample}">
     <p>Hi <span th:text="${sample}"></span></p>
   </div>
-  <p><a th:href="@{/jankengame(hand='gu')}">ぐー</a>
+
+  <p>
+    <a th:href="@{/jankengame(hand='gu')}">ぐー</a>
     <a th:href="@{/jankengame(hand='choki')}">ちょき</a>
     <a th:href="@{/jankengame(hand='pa')}">ぱー</a>
   </p>
+
+  <!--結果がある場合のみ表示-->
+  <div th:if="${userHand}">
+    <p>あなたの手 <span th:text="${userHand}"></span></p>
+    <p>相手の手 <span th:text="${cpuHand}"></span></p>
+    <p>結果 <span th:text="${result}"></span></p>
+  </div>
+
 </body>
 
 </html>
