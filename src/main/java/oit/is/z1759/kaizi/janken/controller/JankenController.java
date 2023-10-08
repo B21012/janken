@@ -51,11 +51,19 @@ public class JankenController {
 
   @GetMapping("/janken")
   public String showIndex() {
+    totalGame = 0;
+    countWin = 0;
+    countDraw = 0;
+    countLose = 0;
     return "janken.html";
   }
 
   @PostMapping("/janken")
   public String postRequest(@RequestParam("text") String str, ModelMap model) {
+    totalGame = 0;
+    countWin = 0;
+    countDraw = 0;
+    countLose = 0;
     // 画面から受け取った文字列をModelに登録
     model.addAttribute("sample", str);
     // janken.htmlに遷移
