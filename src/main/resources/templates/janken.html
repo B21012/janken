@@ -53,10 +53,12 @@
   </div>
 
   <p>
-    <a th:href="@{/jankengame(hand='gu')}">ぐー</a>
-    <a th:href="@{/jankengame(hand='choki')}">ちょき</a>
-    <a th:href="@{/jankengame(hand='pa')}">ぱー</a>
+    <a th:href="@{/jankengame(hand='Gu')}">ぐー</a>
+    <a th:href="@{/jankengame(hand='Choki')}">ちょき</a>
+    <a th:href="@{/jankengame(hand='Pa')}">ぱー</a>
   </p>
+
+
 
   <!-- 結果がある場合のみ表示 -->
   <div th:if="${userHand}">

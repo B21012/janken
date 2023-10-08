@@ -11,23 +11,21 @@ import oit.is.z1759.kaizi.janken.model.Janken;
 
 @Controller
 public class JankenController {
+  // それぞれの回数
   private int totalGame = 0;
   private int countWin = 0;
   private int countDraw = 0;
   private int countLose = 0;
 
+  // handを受け取って、handというリクエストパラメータを受け取り、userHandに格納
   @GetMapping("/jankengame")
   public String playGame(@RequestParam("hand") String userHand, ModelMap model) {
-    // ゲーム回数を表示
+    // ゲーム回数をカウント
     totalGame++;
-
-    // CPUの手
-    String result;
-
-    Janken jankenResult = new Janken();
-
-    // 対戦結果のロジックを追加
-    result = determineWinner(userHand, jankenResult.getCpuHand());
+    // Jankenクラスからインスタンスを作成
+    Janken jankenResult = new Janken(userHand);
+    // 勝負の結果
+    String result = jankenResult.getResult();
 
     if (result.equals("You Win!")) {
       countWin++;
@@ -37,7 +35,7 @@ public class JankenController {
       countLose++;
     }
 
-    // 結果をmodelに登録
+    // 結果をModelMapに登録し、Viewに渡す
     model.addAttribute("userHand", userHand);
     model.addAttribute("cpuHand", jankenResult.getCpuHand());
     model.addAttribute("result", result);
@@ -49,39 +47,28 @@ public class JankenController {
     return "janken";
   }
 
+  /* /jankenの時表示 入力せず同じ画面を返すのでGetがいい */
   @GetMapping("/janken")
   public String showIndex() {
     totalGame = 0;
     countWin = 0;
     countDraw = 0;
     countLose = 0;
-    return "janken.html";
+    return "janken";
   }
 
+  // 名前をtextという名前のパラメータを受け取りstrに格納
   @PostMapping("/janken")
   public String postRequest(@RequestParam("text") String str, ModelMap model) {
+    // 新たに名前を入力するとカウント初期化
     totalGame = 0;
     countWin = 0;
     countDraw = 0;
     countLose = 0;
-    // 画面から受け取った文字列をModelに登録
+    // 画面から受け取った文字列をViewに渡す
     model.addAttribute("sample", str);
     // janken.htmlに遷移
     return "janken";
-  }
-
-  private String determineWinner(String userHand, String cpuHand) {
-    if (userHand.equals("gu") && cpuHand.equals("choki")) {
-      return "You Win!";
-    } else if (userHand.equals("choki") && cpuHand.equals("pa")) {
-      return "You Win!";
-    } else if (userHand.equals("pa") && cpuHand.equals("gu")) {
-      return "You Win!";
-    } else if (userHand.equals(cpuHand)) {
-      return "It's a Draw!";
-    } else {
-      return "You Lose!";
-    }
   }
 
 }

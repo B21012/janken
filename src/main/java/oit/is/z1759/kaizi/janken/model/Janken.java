@@ -5,15 +5,21 @@ import java.util.Random;
 public class Janken {
   private String userHand;
   private String cpuHand;
-  private String result;
 
   // コンストラクタ
-  public Janken() {
+  public Janken(String userHand) {
+    this.userHand = userHand;
     this.cpuHand = getRandomHand();
   }
 
+  // 勝負を行方を返す
+  public String jankenResult() {
+    return determineWinner(userHand, cpuHand);
+  }
+
+  // cpuをランダムな手を考える
   private String getRandomHand() {
-    String[] hands = { "gu", "choki", "pa" };
+    String[] hands = { "Gu", "Choki", "Pa" };
     Random random = new Random();
     int index = random.nextInt(hands.length);
     return hands[index];
@@ -37,11 +43,22 @@ public class Janken {
   }
 
   public String getResult() {
-    return result;
+    return determineWinner(userHand, cpuHand);
   }
 
-  public void setResult(String result) {
-    this.result = result;
+  // 勝負の行方
+  private String determineWinner(String userHand, String cpuHand) {
+    if (userHand.equals("Gu") && cpuHand.equals("Choki")) {
+      return "You Win!";
+    } else if (userHand.equals("Choki") && cpuHand.equals("Pa")) {
+      return "You Win!";
+    } else if (userHand.equals("Pa") && cpuHand.equals("Gu")) {
+      return "You Win!";
+    } else if (userHand.equals(cpuHand)) {
+      return "It's a Draw!";
+    } else {
+      return "You Lose!";
+    }
   }
 
 }
