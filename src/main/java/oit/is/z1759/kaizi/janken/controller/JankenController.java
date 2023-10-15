@@ -1,13 +1,16 @@
 package oit.is.z1759.kaizi.janken.controller;
 
+import java.security.Principal;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.z1759.kaizi.janken.model.Janken;
+import oit.is.z1759.kaizi.janken.model.Entry;
 
 @Controller
 public class JankenController {
@@ -16,6 +19,9 @@ public class JankenController {
   private int countWin = 0;
   private int countDraw = 0;
   private int countLose = 0;
+
+  @Autowired
+  private Entry entry;
 
   // handを受け取って、handというリクエストパラメータを受け取り、userHandに格納
   @GetMapping("/jankengame")
@@ -49,25 +55,15 @@ public class JankenController {
 
   /* /jankenの時表示 入力せず同じ画面を返すのでGetがいい */
   @GetMapping("/janken")
-  public String showIndex() {
+  public String showIndex(Principal prin, ModelMap model) {
+    String loginUser = prin.getName();
+    this.entry.addUser(loginUser);
+    model.addAttribute("entry", this.entry);
+    model.addAttribute("loginUser", loginUser);
     totalGame = 0;
     countWin = 0;
     countDraw = 0;
     countLose = 0;
-    return "janken";
-  }
-
-  // 名前をtextという名前のパラメータを受け取りstrに格納
-  @PostMapping("/janken")
-  public String postRequest(@RequestParam("text") String str, ModelMap model) {
-    // 新たに名前を入力するとカウント初期化
-    totalGame = 0;
-    countWin = 0;
-    countDraw = 0;
-    countLose = 0;
-    // 画面から受け取った文字列をViewに渡す
-    model.addAttribute("sample", str);
-    // janken.htmlに遷移
     return "janken";
   }
 

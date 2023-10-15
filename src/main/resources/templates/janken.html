@@ -4,52 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Janken GAME!</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
-      text-align: center;
-      margin: 50px;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    p {
-      margin: 10px 0;
-    }
-
-    a {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 18px;
-      text-decoration: none;
-      color: #fff;
-      background-color: #3498db;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    a:hover {
-      background-color: #2980b9;
-    }
-
-    div {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-  </style>
 </head>
 
 <body>
+  <a href="/logout">ログアウト</a>
   <h1>Janken GAME!</h1>
-  <div th:if="${sample}">
-    <p>Hi <span th:text="${sample}"></span></p>
+
+  <div th:if="${entry}">
+    <p>エントリー</p>
+    <ul>
+      <!--eachは所謂for each．この場合roomオブジェクトのusersフィールドにあるすべてのデータを一通り表示する
+        thが指定されているので[]が不要になる-->
+      <li th:each="user : ${entry.users}">[[${user}]]</li>
+    </ul>
+  </div>
+
+  <div th:if="${loginUser}">
+    <p>Hi <span th:text="${loginUser}"></span></p>
   </div>
 
   <p>
@@ -57,8 +28,6 @@
     <a th:href="@{/jankengame(hand='Choki')}">ちょき</a>
     <a th:href="@{/jankengame(hand='Pa')}">ぱー</a>
   </p>
-
-
 
   <!-- 結果がある場合のみ表示 -->
   <div th:if="${userHand}">
