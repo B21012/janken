@@ -58,8 +58,11 @@ public class JankenController {
   public String showIndex(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
     this.entry.addUser(loginUser);
+
     model.addAttribute("entry", this.entry);
     model.addAttribute("loginUser", loginUser);
+    // ユーザ数を表示
+    model.addAttribute("userSum", entry.getUserSum());
     totalGame = 0;
     countWin = 0;
     countDraw = 0;

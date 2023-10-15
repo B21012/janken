@@ -9,6 +9,7 @@ public class Entry {
   ArrayList<String> users = new ArrayList<>();
   int roomNo = 1;
 
+
   public void addUser(String name) {
     // 同名のユーザが居たら何もせずにreturn
     for (String s : this.users) {
@@ -18,6 +19,11 @@ public class Entry {
     }
     // 同名のユーザが居なかった場合はusersにnameを追加する
     this.users.add(name);
+  }
+
+  // ユーザ数をgetする
+  public int getUserSum() {
+    return users.size();
   }
 
   // 以降はフィールドのgetter/setter
