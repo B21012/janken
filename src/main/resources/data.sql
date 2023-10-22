@@ -1,10 +1,10 @@
 -- usersテーブル
-INSERT INTO users (name) VALUES
+INSERT INTO users (userName) VALUES
 ('CPU'),
 ('ほんだ');
 
 -- matchesテーブル
 INSERT INTO matches (user1, user2, user1Hand, user2Hand) VALUES
-(1, 2, 'Gu', 'Choki'),
-(1, 2, 'Gu', 'Gu'),
-(1, 2, 'Gu', 'Pa');
+(2, 1, 'Gu', 'Choki'),
+(2, 1, 'Gu', 'Gu'),
+(2, 1, 'Gu', 'Pa');

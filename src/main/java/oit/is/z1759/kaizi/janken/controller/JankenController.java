@@ -1,6 +1,6 @@
 package oit.is.z1759.kaizi.janken.controller;
 
-import java.security.Principal;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.z1759.kaizi.janken.model.Janken;
-import oit.is.z1759.kaizi.janken.model.Entry;
+import oit.is.z1759.kaizi.janken.model.User;
+import oit.is.z1759.kaizi.janken.model.UserMapper;
 
 @Controller
 public class JankenController {
@@ -21,7 +22,7 @@ public class JankenController {
   private int countLose = 0;
 
   @Autowired
-  private Entry entry;
+  UserMapper userMapper;
 
   // handを受け取って、handというリクエストパラメータを受け取り、userHandに格納
   @GetMapping("/jankengame")
@@ -53,21 +54,11 @@ public class JankenController {
     return "janken";
   }
 
-  /* /jankenの時表示 入力せず同じ画面を返すのでGetがいい */
   @GetMapping("/janken")
-  public String showIndex(Principal prin, ModelMap model) {
-    String loginUser = prin.getName();
-    this.entry.addUser(loginUser);
-
-    model.addAttribute("entry", this.entry);
-    model.addAttribute("loginUser", loginUser);
-    // ユーザ数を表示
-    model.addAttribute("userSum", entry.getUserSum());
-    totalGame = 0;
-    countWin = 0;
-    countDraw = 0;
-    countLose = 0;
-    return "janken";
+  public String sample42(ModelMap model) {
+    ArrayList<User> users = userMapper.selectAllUsers();
+    model.addAttribute("users", users);
+    return "janken.html";
   }
 
 }
