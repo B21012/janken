@@ -1,6 +1,7 @@
 package oit.is.z1759.kaizi.janken.controller;
 
 import java.util.ArrayList;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import oit.is.z1759.kaizi.janken.model.Janken;
 import oit.is.z1759.kaizi.janken.model.User;
 import oit.is.z1759.kaizi.janken.model.UserMapper;
+import oit.is.z1759.kaizi.janken.model.Match;
+import oit.is.z1759.kaizi.janken.model.MatchMapper;
 
 @Controller
 public class JankenController {
@@ -23,6 +26,9 @@ public class JankenController {
 
   @Autowired
   UserMapper userMapper;
+
+  @Autowired
+  MatchMapper matchMapper;
 
   // handを受け取って、handというリクエストパラメータを受け取り、userHandに格納
   @GetMapping("/jankengame")
@@ -55,9 +61,20 @@ public class JankenController {
   }
 
   @GetMapping("/janken")
-  public String sample42(ModelMap model) {
+  public String jankeMatch(Principal prin, ModelMap model) {
+
+    String loginUser = prin.getName();
+    model.addAttribute("loginUser", loginUser);
+
     ArrayList<User> users = userMapper.selectAllUsers();
+    ArrayList<Match> matches = matchMapper.selectAllMatches();
+    model.addAttribute("loginUser", loginUser);
     model.addAttribute("users", users);
+    model.addAttribute("matches", matches);
+    totalGame = 0;
+    countWin = 0;
+    countDraw = 0;
+    countLose = 0;
     return "janken.html";
   }
 
