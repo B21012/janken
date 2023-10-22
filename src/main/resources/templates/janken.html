@@ -13,13 +13,24 @@
 
 
   <div th:if="${loginUser}">
-    <p>Hi <span th:text="${loginUser}" style="font-weight: bold;"></span></p>
+    <p>Hi <span th:text="${loginUser}" </p>
   </div>
 
-  <p>エントリー</p>
+  <h1>エントリー</h1>
   <ul>
     <li th:each="user:${users}">[[${user.userName}]]</li>
   </ul>
+
+  <h2>試合結果</h2>
+  <div th:each="match:${matches}">
+    <tr>
+      <td>id:[[${match.id}]]</td>
+      <td>user1:[[${match.user1}]]</td>
+      <td>user2:[[${match.user2}]]</td>
+      <td>user1Hand:[[${match.user1Hand}]]</td>
+      <td>user2Hand:[[${match.user2Hand}]]</td>
+    </tr>
+  </div>
 
 
   <p>
