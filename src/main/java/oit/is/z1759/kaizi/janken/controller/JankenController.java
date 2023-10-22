@@ -78,4 +78,11 @@ public class JankenController {
     return "janken.html";
   }
 
+  @GetMapping("/match")
+  public String gameMatch(@RequestParam Integer id, ModelMap model) {
+    User match = userMapper.selectAllById(id);
+    model.addAttribute("match", match);
+    return "match";
+  }
+
 }
