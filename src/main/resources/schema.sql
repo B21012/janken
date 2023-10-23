@@ -8,8 +8,8 @@ CREATE TABLE users (
 -- matchesテーブル
 CREATE TABLE matches (
     id IDENTITY PRIMARY KEY,
-    user1 VARCHAR,
-    user2 VARCHAR,
+    user1 int,
+    user2 int,
     user1Hand VARCHAR,
     user2Hand VARCHAR
 );
