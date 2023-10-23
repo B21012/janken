@@ -19,6 +19,7 @@ import oit.is.z1759.kaizi.janken.model.MatchMapper;
 @Controller
 public class JankenController {
   // それぞれの回数
+  private int countId = 3;
   private int totalGame = 0;
   private int countWin = 0;
   private int countDraw = 0;
@@ -30,9 +31,9 @@ public class JankenController {
   @Autowired
   MatchMapper matchMapper;
 
-  // handを受け取って、handというリクエストパラメータを受け取り、userHandに格納
-  @GetMapping("/jankengame")
-  public String playGame(@RequestParam("hand") String userHand, ModelMap model) {
+  @GetMapping("/fight")
+  public String playGame(@RequestParam("hand") String userHand, Principal prin, ModelMap model) {
+    String loginUser = prin.getName(); // ログインユーザ情報
     // ゲーム回数をカウント
     totalGame++;
     // Jankenクラスからインスタンスを作成
@@ -56,8 +57,16 @@ public class JankenController {
     model.addAttribute("countWin", countWin);
     model.addAttribute("countDraw", countDraw);
     model.addAttribute("countLose", countLose);
+    countId++;
+
+    // 新しいMatchオブジェクトを作成
+    Match match = new Match(countId, 2, 1, jankenResult.getUserHand(), jankenResult.getCpuHand());
+
+    // Matchをデータベースに登録
+    matchMapper.insertMatch(match);
+
     // janken.htmlに遷移
-    return "janken";
+    return "match";
   }
 
   @GetMapping("/janken")

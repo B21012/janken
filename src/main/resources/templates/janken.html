@@ -33,13 +33,7 @@
   </div>
 
 
-  <p>
-    <a th:href="@{/jankengame(hand='Gu')}">ぐー</a>
-    <a th:href="@{/jankengame(hand='Choki')}">ちょき</a>
-    <a th:href="@{/jankengame(hand='Pa')}">ぱー</a>
-  </p>
-
-  <div th:if="${userHand}">
+  <div th:if=" ${userHand}">
     <p>あなたの手 <span th:text="${userHand}" style="font-weight: bold;"></span></p>
     <p>相手の手 <span th:text="${cpuHand}" style="font-weight: bold;"></span></p>
     <p>結果 <span th:text="${result}" style="font-weight: bold;"></span></p>
@@ -47,7 +41,11 @@
     <p>勝ち: <span th:text="${countWin}"></span></p>
     <p>引き分け: <span th:text="${countDraw}"></span></p>
     <p>負け: <span th:text="${countLose}"></span></p>
+    <a href="/janken">もどる</a>
   </div>
+
+
+
 
 </body>
 
