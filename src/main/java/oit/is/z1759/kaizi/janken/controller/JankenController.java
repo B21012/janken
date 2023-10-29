@@ -59,11 +59,9 @@ public class JankenController {
     model.addAttribute("countLose", countLose);
     countId++;
 
-    // 新しいMatchオブジェクトを作成
-    Match match = new Match(countId, 2, 1, jankenResult.getUserHand(), jankenResult.getCpuHand());
 
-    // Matchをデータベースに登録
-    matchMapper.insertMatch(match);
+
+
 
     // janken.htmlに遷移
     return "match";
