@@ -1,69 +1,24 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>じゃんけんゲーム!</title>
-
+  <meta charset="utf-8">
+  <title>Janken</title>
 </head>
 
 <body>
-  <a href="/logout">ログアウト</a>
-
-
-
-  <div th:if="${loginUser}">
-    <p>Hi <span th:text="${loginUser}" </p>
-  </div>
-
+  <div><a href="/logout">ログアウト</a></div>
   <h1>Match</h1>
-  <ul>
-    <li th:each="user : ${users}"><a th:href="@{/match(id=${user.id})}"> [[${user.userName}]]</a></li>
-  </ul>
-
-
-  <div th:if="${match}">
-
-    <h2><span sec:authentication="name"></span> V.S. [[${match.userName}]]</h2>
-
-
-  </div>
-
-
-
-  <div th:each="match:${matches}">
-    <tr>
-      <td>id:[[${match.id}]]</td>
-      <td>user1:[[${match.user1}]]</td>
-      <td>user2:[[${match.user2}]]</td>
-      <td>user1Hand:[[${match.user1Hand}]]</td>
-      <td>user2Hand:[[${match.user2Hand}]]</td>
-    </tr>
-  </div>
-  <p>
-    <a th:href="@{/fight(hand='Gu')}">ぐー</a>
-    <a th:href="@{/fight(hand='Choki')}">ちょき</a>
-    <a th:href="@{/fight(hand='Pa')}">ぱー</a>
-
-  </p>
-
-
-
-
-  <div th:if=" ${userHand}">
-    <p>あなたの手 <span th:text="${userHand}" style="font-weight: bold;"></span></p>
-    <p>相手の手 <span th:text="${cpuHand}" style="font-weight: bold;"></span></p>
-    <p>結果 <span th:text="${result}" style="font-weight: bold;"></span></p>
-    <p>試合回数: <span th:text="${totalGame}"></span></p>
-    <p>勝ち: <span th:text="${countWin}"></span></p>
-    <p>引き分け: <span th:text="${countDraw}"></span></p>
-    <p>負け: <span th:text="${countLose}"></span></p>
-
+  <h2><span sec:authentication="name"></span>&ensp;V.S.&ensp;[[${match.userName}]]</h2>
+  <a th:href="@{/fight?hand=1(id=${match.id})}">ぐー</a>
+  <a th:href="@{/fight?hand=2(id=${match.id})}">ちょき</a>
+  <a th:href="@{/fight?hand=3(id=${match.id})}">ぱー</a>
+  <div>
+    <span th:each="msg:${msglist}">
+      [[${msg}]]<br>
+    </span>
   </div>
   <a href="/janken">もどる</a>
-
-
-
 </body>
 
 </html>

@@ -12,6 +12,24 @@ public class Janken {
     this.cpuHand = getRandomHand();
   }
 
+  // 新しく追加
+  public void setUserHandForMatchInfo(MatchInfo matchInfo, Integer hand) {
+    switch (hand) {
+      case 1:
+        matchInfo.setUser1Hand("Gu");
+        break;
+      case 2:
+        matchInfo.setUser1Hand("Choki");
+        break;
+      case 3:
+        matchInfo.setUser1Hand("Pa");
+        break;
+      default:
+        // Handle invalid hand input
+        throw new IllegalArgumentException("Invalid hand value: " + hand);
+    }
+  }
+
   // 勝負を行方を返す
   public String jankenResult() {
     return determineWinner(userHand, cpuHand);

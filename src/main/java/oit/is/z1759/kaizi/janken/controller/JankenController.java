@@ -5,6 +5,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,16 +15,12 @@ import oit.is.z1759.kaizi.janken.model.Janken;
 import oit.is.z1759.kaizi.janken.model.User;
 import oit.is.z1759.kaizi.janken.model.UserMapper;
 import oit.is.z1759.kaizi.janken.model.Match;
+import oit.is.z1759.kaizi.janken.model.MatchInfo;
+import oit.is.z1759.kaizi.janken.model.MatchInfoMapper;
 import oit.is.z1759.kaizi.janken.model.MatchMapper;
 
 @Controller
 public class JankenController {
-  // それぞれの回数
-  private int countId = 3;
-  private int totalGame = 0;
-  private int countWin = 0;
-  private int countDraw = 0;
-  private int countLose = 0;
 
   @Autowired
   UserMapper userMapper;
@@ -31,65 +28,43 @@ public class JankenController {
   @Autowired
   MatchMapper matchMapper;
 
-  @GetMapping("/fight")
-  public String playGame(@RequestParam("hand") String userHand, Principal prin, ModelMap model) {
-    String loginUser = prin.getName(); // ログインユーザ情報
-    // ゲーム回数をカウント
-    totalGame++;
-    // Jankenクラスからインスタンスを作成
-    Janken jankenResult = new Janken(userHand);
-    // 勝負の結果
-    String result = jankenResult.getResult();
+  @Autowired
+  MatchInfoMapper matchInfoMapper;
 
-    if (result.equals("You Win!")) {
-      countWin++;
-    } else if (result.equals("It's a Draw!")) {
-      countDraw++;
-    } else if (result.equals("You Lose!")) {
-      countLose++;
-    }
-
-    // 結果をModelMapに登録し、Viewに渡す
-    model.addAttribute("userHand", userHand);
-    model.addAttribute("cpuHand", jankenResult.getCpuHand());
-    model.addAttribute("result", result);
-    model.addAttribute("totalGame", totalGame);
-    model.addAttribute("countWin", countWin);
-    model.addAttribute("countDraw", countDraw);
-    model.addAttribute("countLose", countLose);
-    countId++;
-
-
-
-
-
-    // janken.htmlに遷移
-    return "match";
-  }
-
+  // ログインし，相手を選び(janken.html)
   @GetMapping("/janken")
-  public String jankeMatch(Principal prin, ModelMap model) {
-
-    String loginUser = prin.getName();
-    model.addAttribute("loginUser", loginUser);
-
+  public String userEntry(ModelMap model) {
     ArrayList<User> users = userMapper.selectAllUsers();
     ArrayList<Match> matches = matchMapper.selectAllMatches();
-    model.addAttribute("loginUser", loginUser);
-    model.addAttribute("users", users);
     model.addAttribute("matches", matches);
-    totalGame = 0;
-    countWin = 0;
-    countDraw = 0;
-    countLose = 0;
-    return "janken.html";
+    model.addAttribute("users", users);
+    return "janken";
   }
 
+  // 手を選び(match.html)
   @GetMapping("/match")
-  public String gameMatch(@RequestParam Integer id, ModelMap model) {
+  public String selectHand(@RequestParam Integer id, ModelMap model) {
     User match = userMapper.selectAllById(id);
     model.addAttribute("match", match);
     return "match";
+  }
+
+  @Transactional
+  @GetMapping("/fight")
+  public String sample43(@RequestParam Integer hand, @RequestParam Integer id, ModelMap model, Principal prin) {
+    String loginUser = prin.getName(); // ログインユーザ情報
+    User user = userMapper.selectByUserName(loginUser);
+    MatchInfo matchInfo = new MatchInfo();
+    matchInfo.setUser1(user.getId());
+    matchInfo.setUser2(id);
+    matchInfo.setIsActive(true);
+
+    Janken janken = new Janken(loginUser);
+    janken.setUserHandForMatchInfo(matchInfo, hand);
+
+    matchInfoMapper.insertMatchInfo(matchInfo);
+
+    return "wait";
   }
 
 }
