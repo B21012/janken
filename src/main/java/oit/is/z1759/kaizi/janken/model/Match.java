@@ -6,19 +6,9 @@ public class Match {
   private int user2;
   private String user1Hand;
   private String user2Hand;
+  private boolean isActive;
 
-  // Constructor
-
-  public Match(int id, int user1, int user2, String user1Hand, String user2Hand) {
-    this.id = id;
-    this.user1 = user1;
-    this.user2 = user2;
-    this.user1Hand = user1Hand;
-    this.user2Hand = user2Hand;
-  }
-
-  // Getters
-
+  // Getter methods
   public int getId() {
     return id;
   }
@@ -39,8 +29,11 @@ public class Match {
     return user2Hand;
   }
 
-  // Setters
+  public boolean getIsActive() {
+    return isActive;
+  }
 
+  // Setter methods
   public void setId(int id) {
     this.id = id;
   }
@@ -59,5 +52,9 @@ public class Match {
 
   public void setUser2Hand(String user2Hand) {
     this.user2Hand = user2Hand;
+  }
+
+  public void setIsActive(boolean isActive) {
+    this.isActive = isActive;
   }
 }
