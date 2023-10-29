@@ -15,4 +15,7 @@ public interface UserMapper {
   @Select("SELECT * from users where id = #{id};")
   User selectAllById(int id);
 
+  @Select("SELECT * from users where userName = #{userName}")
+  User selectByUserName(String userName);
+
 }
