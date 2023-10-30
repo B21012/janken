@@ -38,7 +38,10 @@ public class JankenController {
     ArrayList<Match> matches = matchMapper.selectAllMatches();
     model.addAttribute("matches", matches);
     model.addAttribute("users", users);
-    return "janken";
+
+    ArrayList<MatchInfo> matchinfo = matchInfoMapper.selectAllByIsActive();
+    model.addAttribute("matchinfo", matchinfo);
+    return "janken.html";
   }
 
   // 手を選び(match.html)
@@ -51,7 +54,7 @@ public class JankenController {
 
   @Transactional
   @GetMapping("/fight")
-  public String sample43(@RequestParam Integer hand, @RequestParam Integer id, ModelMap model, Principal prin) {
+  public String playGame(@RequestParam Integer hand, @RequestParam Integer id, ModelMap model, Principal prin) {
     String loginUser = prin.getName(); // ログインユーザ情報
     User user = userMapper.selectByUserName(loginUser);
     MatchInfo matchInfo = new MatchInfo();

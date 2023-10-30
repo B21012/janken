@@ -17,4 +17,7 @@ public interface MatchInfoMapper {
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertMatchInfo(MatchInfo matchinfo);
 
+  @Select("SELECT * from matchinfo where isActive = true;")
+  ArrayList<MatchInfo> selectAllByIsActive();
+
 }
